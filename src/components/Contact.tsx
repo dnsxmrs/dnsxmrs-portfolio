@@ -74,7 +74,7 @@ export default function Contact() {
                 <div>
                   <p className="font-medium text-[var(--foreground)]">LinkedIn</p>
                   <p className="text-sm text-[var(--muted-foreground)] group-hover:text-[var(--accent)] transition-colors duration-300">
-                    @dnsxmrs
+                    Erice Michael D. Marial
                   </p>
                 </div>
               </a>
