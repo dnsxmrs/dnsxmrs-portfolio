@@ -105,7 +105,7 @@ export default function Contact() {
                   className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-medium text-[var(--accent-foreground)] transition-all duration-300 hover:bg-[var(--accent)]/90 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
                 >
                   <Mail className="h-4 w-4" />
-                  Send Message
+                  Send an Email
                 </a>
               </div>
             </div>

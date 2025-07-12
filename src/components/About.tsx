@@ -1,29 +1,6 @@
 'use client';
 
-import { Code, Database, Server, Layers } from 'lucide-react';
-
-const skills = [
-  {
-    category: 'Frontend',
-    icon: Code,
-    technologies: ['HTML', 'Tailwind CSS', 'JavaScript', 'React', 'TypeScript', 'Next.js']
-  },
-  {
-    category: 'Backend',
-    icon: Server,
-    technologies: ['Laravel', 'C#', 'Python', 'Node.js', 'PHP']
-  },
-  {
-    category: 'Database',
-    icon: Database,
-    technologies: ['PostgreSQL', 'MySQL', 'SQLite', 'SQL Server', 'MongoDB']
-  },
-  {
-    category: 'Architecture',
-    icon: Layers,
-    technologies: ['Clean Architecture', 'Scalable Systems', 'API Integration']
-  }
-];
+import { skills } from '@/data/projects';
 
 export default function About() {
   return (
@@ -81,12 +58,18 @@ export default function About() {
                 </div>
                 <div className="space-y-2">
                   {skill.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="inline-block mr-2 mb-2 px-3 py-1 text-sm bg-[var(--muted)] text-[var(--muted-foreground)] rounded-full border border-[var(--border)] group-hover:border-[var(--accent)]/30 transition-colors duration-300"
+                    <div
+                      key={tech.name}
+                      className="inline-flex items-center mr-2 mb-2 px-3 py-2 text-sm bg-[var(--muted)] text-[var(--muted-foreground)] rounded-full border border-[var(--border)] group-hover:border-[var(--accent)]/30 transition-colors duration-300"
                     >
-                      {tech}
-                    </span>
+                      {tech.icon && (
+                        <tech.icon
+                          className="w-4 h-4 mr-2"
+                          style={{ color: tech.color }}
+                        />
+                      )}
+                      <span>{tech.name}</span>
+                    </div>
                   ))}
                 </div>
               </div>

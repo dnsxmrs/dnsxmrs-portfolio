@@ -24,7 +24,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Use saved theme or fall back to system preference
     const initialTheme = savedTheme || systemTheme;
     setTheme(initialTheme);
-    
+
     // Apply theme immediately to avoid flash
     const root = document.documentElement;
     root.classList.remove('light', 'dark');
