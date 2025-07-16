@@ -182,6 +182,7 @@ export const projects: Project[] = [
     title: 'E-WasteWise',
     description: 'A comprehensive informational platform educating users about electronic waste in the Philippines. Features e-waste definitions, categories, interactive counter, disposal site locator, and proper disposal guidelines tailored for Filipino consumers.',
     techStack: ['Next.js', 'React', 'Responsive Design', 'Tailwind CSS', 'TypeScript'],
+    demoUrl: 'https://e-wastewise.vercel.app/',
     category: 'web',
     deploymentStatus: 'in-development',
     featured: true,
