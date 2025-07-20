@@ -1,10 +1,11 @@
 'use client';
 
 import {
-  Github, ExternalLink, Monitor, Globe, BookOpen,
-  // AlertCircle, Clock, CheckCircle
+  Github, ExternalLink, Monitor, Globe, BookOpen
 } from 'lucide-react';
 import { projects, type Project, getTechStackWithIcons } from '@/data/projects';
+import { ComponentType } from 'react';
+import Image from 'next/image';
 
 const categoryLabels = {
   web: 'Web Application',
@@ -13,34 +14,24 @@ const categoryLabels = {
 };
 
 function ProjectCard({ project }: { project: Project }) {
-  const ProjectIcon = project.icon;
   const techStackWithIcons = getTechStackWithIcons(project.techStack);
 
-  // const getDeploymentBadge = () => {
-  //   if (project.deploymentStatus === 'deployed') {
-  //     return (
-  //       <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full border border-green-200">
-  //         <CheckCircle className="w-3 h-3" />
-  //         Deployed
-  //       </span>
-  //     );
-  //   } else if (project.deploymentStatus === 'in-development') {
-  //     return (
-  //       <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full border border-yellow-200">
-  //         <Clock className="w-3 h-3" />
-  //         In Development
-  //       </span>
-  //     );
-  //   } else if (project.deploymentStatus === 'not-deployed') {
-  //     return (
-  //       <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full border border-gray-200">
-  //         <AlertCircle className="w-3 h-3" />
-  //         No Deployment
-  //       </span>
-  //     );
-  //   }
-  //   return null;
-  // };
+  const renderProjectIcon = () => {
+    if (project.iconType === 'image' && typeof project.icon === 'string') {
+      return (
+        <Image
+          src={project.icon}
+          alt={`${project.title} icon`}
+          className="object-contain"
+          width={30}
+          height={30}
+        />
+      );
+    } else {
+      const IconComponent = project.icon as ComponentType<{ className?: string }>;
+      return <IconComponent className="h-5 w-5" />;
+    }
+  };
 
   return (
     <div className="group relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-[var(--accent)]/50">
@@ -50,7 +41,7 @@ function ProjectCard({ project }: { project: Project }) {
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-start space-x-3 flex-1 min-w-0">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--accent)]/10 text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[var(--accent-foreground)] transition-all duration-300 flex-shrink-0">
-                <ProjectIcon className="h-5 w-5" />
+                {renderProjectIcon()}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-1">
@@ -66,11 +57,6 @@ function ProjectCard({ project }: { project: Project }) {
                 <span className="text-sm text-[var(--muted-foreground)] mt-1 block">
                   {categoryLabels[project.category]}
                 </span>
-                {/* {project.deploymentStatus && (
-                  <div className="mt-2">
-                    {getDeploymentBadge()}
-                  </div>
-                )} */}
               </div>
             </div>
 
@@ -117,17 +103,32 @@ function ProjectCard({ project }: { project: Project }) {
 
         <div className="flex flex-wrap gap-2">
           {techStackWithIcons.map((tech) => {
-            const TechIcon = tech.icon;
             return (
               <span
+                title={tech.name}
                 key={tech.name}
                 className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--muted)] px-3 py-1 text-xs font-medium text-[var(--muted-foreground)] group-hover:border-[var(--accent)]/30 group-hover:bg-[var(--accent)]/10 group-hover:text-[var(--accent)] transition-all duration-300"
               >
-                <TechIcon
-                  className="w-3 h-3 flex-shrink-0"
-                  style={{ color: tech.color }}
-                />
-                {tech.name}
+                {tech.iconType === 'image' && typeof tech.icon === 'string' ? (
+                  <Image
+                    src={tech.icon}
+                    alt={`${tech.name} icon`}
+                    className="flex-shrink-0 object-contain"
+                    width={15}
+                    height={15}
+                  />
+                ) : (
+                  (() => {
+                    const TechIcon = tech.icon as React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+                    return (
+                      <TechIcon
+                        className="w-3 h-3 flex-shrink-0"
+                        style={{ color: tech.color }}
+                      />
+                    );
+                  })()
+                )}
+                {/* {tech.name} */}
               </span>
             );
           })}
