@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  Github, ExternalLink, Monitor, Globe, BookOpen
+  Github, ExternalLink, Monitor, Globe, BookOpen, Smartphone
 } from 'lucide-react';
 import { projects, type Project, getTechStackWithIcons } from '@/data/projects';
 import { ComponentType } from 'react';
@@ -10,6 +10,7 @@ import Image from 'next/image';
 const categoryLabels = {
   web: 'Web Application',
   desktop: 'Desktop Application',
+  mobile: 'Mobile Application',
   study: 'Case Study'
 };
 
@@ -140,6 +141,7 @@ function ProjectCard({ project }: { project: Project }) {
 
 export default function Projects() {
   const webProjects = projects.filter(p => p.category === 'web');
+  const mobileProjects = projects.filter(p => p.category === 'mobile');
   const desktopProjects = projects.filter(p => p.category === 'desktop');
   const studyProjects = projects.filter(p => p.category === 'study');
 
@@ -177,6 +179,29 @@ export default function Projects() {
           </div>
         </div>
 
+        {/* Mobile Applications */}
+        {mobileProjects.length > 0 && (
+          <div className="mb-16">
+            <h3 className="text-2xl font-semibold text-[var(--foreground)] mb-8 flex items-center">
+              <Smartphone className="h-6 w-6 text-[var(--accent)] mr-3" />
+              Mobile Applications
+            </h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {mobileProjects.map((project, index) => (
+                <div
+                  key={project.id}
+                  style={{
+                    animationDelay: `${(webProjects.length + index) * 0.1}s`,
+                    animation: 'fade-in-up 0.6s ease-out forwards'
+                  }}
+                >
+                  <ProjectCard project={project} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Desktop Applications */}
         <div className="mb-16">
           <h3 className="text-2xl font-semibold text-[var(--foreground)] mb-8 flex items-center">
@@ -188,7 +213,7 @@ export default function Projects() {
               <div
                 key={project.id}
                 style={{
-                  animationDelay: `${(webProjects.length + index) * 0.1}s`,
+                  animationDelay: `${(webProjects.length + mobileProjects.length + index) * 0.1}s`,
                   animation: 'fade-in-up 0.6s ease-out forwards'
                 }}
               >
@@ -209,7 +234,7 @@ export default function Projects() {
               <div
                 key={project.id}
                 style={{
-                  animationDelay: `${(webProjects.length + desktopProjects.length + index) * 0.1}s`,
+                  animationDelay: `${(webProjects.length + mobileProjects.length + desktopProjects.length + index) * 0.1}s`,
                   animation: 'fade-in-up 0.6s ease-out forwards'
                 }}
               >

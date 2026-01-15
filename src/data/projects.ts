@@ -19,7 +19,8 @@ import {
   SiPostman,
   SiAndroidstudio,
   SiGithub,
-  SiFlutter
+  SiFlutter,
+  SiFirebase
 } from 'react-icons/si';
 import { DiMsqlServer } from "react-icons/di";
 import { AiOutlineCodeSandbox } from "react-icons/ai";
@@ -55,6 +56,7 @@ export const techStackIcons: Record<string, { icon: ComponentType<{ className?: 
   // Development Tools & Frameworks
   'Android Studio': { icon: SiAndroidstudio, color: '#3DDC84' },
   'FlutterFlow': { icon: SiFlutter, color: '#02569B' },
+  'Firebase': { icon: SiFirebase, color: '#FFCA28' },
   'Github': { icon: SiGithub, color: '#181717' },
   'mabl': { icon: AiOutlineCodeSandbox, color: '#746EDC' },
   'Postman': { icon: SiPostman, color: '#FF6C37' },
@@ -99,7 +101,7 @@ export interface Project {
   techStack: string[];
   githubUrl?: string;
   demoUrl?: string;
-  category: 'web' | 'desktop' | 'study';
+  category: 'web' | 'desktop' | 'mobile' | 'study';
   deploymentStatus?: 'deployed' | 'in-development' | 'not-deployed';
   featured?: boolean;
   icon: ComponentType<{ className?: string }> | string;
@@ -133,47 +135,53 @@ export const skills: Skill[] = [
     category: 'Frontend',
     icon: Code,
     technologies: [
-      { name: 'Flask', icon: SiFlask, color: '#000000' },
       { name: 'HTML', icon: SiHtml5, color: '#E34F26' },
       { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
-      { name: 'Next.js', icon: SiNextdotjs, color: '#000000' },
+      { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
       { name: 'React', icon: SiReact, color: '#61DAFB' },
-      { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4' },
-      { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' }
+      { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4' }
     ]
   },
   {
     category: 'Backend',
     icon: Server,
     technologies: [
-      { name: 'C#', icon: SiSharp, color: '#239120' },
-      { name: 'Laravel', icon: SiLaravel, color: '#FF2D20' },
       { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
+      { name: 'Python', icon: SiPython, color: '#3776AB' },
       { name: 'PHP', icon: SiPhp, color: '#777BB4' },
-      { name: 'Python', icon: SiPython, color: '#3776AB' }
+      { name: 'C#', icon: SiSharp, color: '#239120' }
+    ]
+  },
+  {
+    category: 'Frameworks',
+    icon: Code,
+    technologies: [
+      { name: 'Next.js', icon: SiNextdotjs, color: '#000000' },
+      { name: 'Flask', icon: SiFlask, color: '#000000' },
+      { name: 'Laravel', icon: SiLaravel, color: '#FF2D20' }
     ]
   },
   {
     category: 'Database',
     icon: Database,
     technologies: [
-      { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
-      { name: 'MySQL', icon: SiMysql, color: '#4479A1' },
       { name: 'PostgreSQL', icon: SiPostgresql, color: '#336791' },
-      { name: 'SQL Server', icon: DiMsqlServer, color: '#CC2927' },
-      { name: 'SQLite', icon: SiSqlite, color: '#003B57' }
+      { name: 'MySQL', icon: SiMysql, color: '#4479A1' },
+      { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
+      { name: 'SQLite', icon: SiSqlite, color: '#003B57' },
+      { name: 'SQL Server', icon: DiMsqlServer, color: '#CC2927' }
     ]
   },
   {
-    category: 'DevTools',
+    category: 'Development Tools',
     icon: Wrench,
     technologies: [
+      { name: 'Visual Studio Code', icon: BiLogoVisualStudio, color: '#007ACC' },
+      { name: 'Github', icon: SiGithub, color: '#181717' },
+      { name: 'Postman', icon: SiPostman, color: '#FF6C37' },
       { name: 'Android Studio', icon: SiAndroidstudio, color: '#3DDC84' },
       { name: 'FlutterFlow', icon: SiFlutter, color: '#02569B' },
-      { name: 'Github', icon: SiGithub, color: '#181717' },
-      { name: 'mabl', icon: AiOutlineCodeSandbox, color: '#746EDC' },
-      { name: 'Postman', icon: SiPostman, color: '#FF6C37' },
-      { name: 'Visual Studio Code', icon: BiLogoVisualStudio, color: '#007ACC' }
+      { name: 'mabl', icon: AiOutlineCodeSandbox, color: '#746EDC' }
     ]
   }
 ];
@@ -184,9 +192,9 @@ export const projects: Project[] = [
     title: 'E-WasteWise',
     description: 'A comprehensive informational platform educating users about electronic waste in the Philippines. Features e-waste definitions, categories, interactive counter, disposal site locator, and proper disposal guidelines tailored for Filipino consumers.',
     techStack: ['Next.js', 'React', 'Tailwind CSS', 'TypeScript'],
-    demoUrl: 'https://e-wastewise.vercel.app/',
+    // demoUrl: 'https://e-wastewise.vercel.app/',
     category: 'web',
-    deploymentStatus: 'in-development',
+    deploymentStatus: 'not-deployed',
     featured: true,
     icon: '/ewastewise.webp', // Using your existing image
     iconType: 'image'
@@ -239,11 +247,11 @@ export const projects: Project[] = [
     iconType: 'image'
   },
   {
-    id: 'magandang-buhay',
-    title: 'Magandang Buhay - Philippine Literature Platform',
+    id: 'e-kwento',
+    title: 'E-Kwento - Philippine Literature Platform',
     description: 'Interactive learning platform for Philippine Literature covering Panitikan, Nobela, Epiko, Maikling Kwento, and more. Features post-story quizzes with analytics for teachers/researchers and gamified learning experiences for junior high students.',
     techStack: ['Clerk Auth', 'Next.js', 'Node.js', 'PostgreSQL', 'React', 'Tailwind CSS', 'TypeScript'],
-    demoUrl: 'https://magandang-buhay.vercel.app/',
+    demoUrl: 'https://e-kwento.vercel.app/',
     category: 'web',
     deploymentStatus: 'deployed',
     featured: true,
@@ -278,6 +286,17 @@ export const projects: Project[] = [
     category: 'web',
     deploymentStatus: 'not-deployed',
     icon: '/Caffeinated Logo.png', // Using your existing image
+    iconType: 'image'
+  },
+  {
+    id: 'protech-u',
+    title: 'PROTECH-U',
+    description: 'University-based security and parental control mobile app for tracking student/faculty presence through QR code scanning. Enables real-time notifications to parents/guardians when students arrive at school, helps administration monitor student count, and provides emergency alerts during natural disasters.',
+    techStack: ['FlutterFlow', 'Firebase'],
+    category: 'mobile',
+    deploymentStatus: 'not-deployed',
+    featured: true,
+    icon: '/PROTECH-U.png',
     iconType: 'image'
   },
   {
