@@ -17,7 +17,7 @@ export function useGithubLanguages(username: string) {
 
         // Get user's repositories
         const reposResponse = await fetch(
-          `https://api.github.com/users/${username}/repos?per_page=100`
+          `/api/github/users/${username}/repos?per_page=100`
         );
 
         if (!reposResponse.ok) {
@@ -31,7 +31,7 @@ export function useGithubLanguages(username: string) {
         for (const repo of repos) {
           if (repo.languages_url) {
             try {
-              const langResponse = await fetch(repo.languages_url);
+              const langResponse = await fetch(repo.languages_url.replace('https://api.github.com', '/api/github'));
               if (langResponse.ok) {
                 const repoLanguages: LanguageStats = await langResponse.json();
                 
