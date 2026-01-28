@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
     request: Request,
-    { params }: { params: { path: string[] } }
+    context: { params: { path: string[] } }
 ) {
-    const path = params.path.join('/');
+    const { path } = context.params;
     const token = process.env.GITHUB_TOKEN;
 
     if (!token) {
@@ -15,18 +15,21 @@ export async function GET(
     }
 
     try {
-        const res = await fetch(`https://api.github.com/${path}`, {
+        const res = await fetch(`https://api.github.com/${path.join('/')}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'X-GitHub-Api-Version': '2022-11-28',
             },
-            next: { revalidate: 3600 }, // Cache data for 1 hour to save API calls
+            next: { revalidate: 3600 },
         });
 
         const data = await res.json();
         return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error('GitHub API Error:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json(
+            { error: 'Internal Server Error' },
+            { status: 500 }
+        );
     }
 }
