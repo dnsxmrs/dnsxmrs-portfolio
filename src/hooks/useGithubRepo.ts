@@ -45,7 +45,7 @@ export function useGithubRepo(owner: string, repo: string) {
 
                 // Fetch repository details
                 const repoResponse = await fetch(
-                    `https://api.github.com/repos/${owner}/${repo}`
+                    `/api/github/repos/${owner}/${repo}`
                 );
 
                 if (!repoResponse.ok) {
@@ -56,7 +56,7 @@ export function useGithubRepo(owner: string, repo: string) {
 
                 // Fetch contributors count
                 const contributorsResponse = await fetch(
-                    `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=1`
+                    `/api/github/repos/${owner}/${repo}/contributors?per_page=1`
                 );
 
                 let contributorsCount = 0;
@@ -72,7 +72,7 @@ export function useGithubRepo(owner: string, repo: string) {
                 }
 
                 // Fetch languages
-                const languagesResponse = await fetch(repoData.languages_url);
+                const languagesResponse = await fetch(repoData.languages_url.replace('https://api.github.com', '/api/github'));
                 const languages: Record<string, number> = languagesResponse.ok
                     ? await languagesResponse.json()
                     : {};

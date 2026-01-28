@@ -40,7 +40,7 @@ export function useGithubCommits(username: string, limit: number = 5) {
 
         // Get user's repositories
         const reposResponse = await fetch(
-          `https://api.github.com/users/${username}/repos?sort=updated&per_page=10`
+          `/api/github/users/${username}/repos?sort=updated&per_page=10`
         );
 
         if (!reposResponse.ok) {
@@ -54,7 +54,7 @@ export function useGithubCommits(username: string, limit: number = 5) {
         for (const repo of repos.slice(0, 5)) {
           try {
             const commitsResponse = await fetch(
-              `https://api.github.com/repos/${username}/${repo.name}/commits?per_page=3&author=${username}`
+              `/api/github/repos/${username}/${repo.name}/commits?per_page=3&author=${username}`
             );
 
             if (commitsResponse.ok) {
@@ -63,7 +63,7 @@ export function useGithubCommits(username: string, limit: number = 5) {
               for (const commit of repoCommits) {
                 // Fetch commit details for stats
                 const commitDetailResponse = await fetch(
-                  `https://api.github.com/repos/${username}/${repo.name}/commits/${commit.sha}`
+                  `/api/github/repos/${username}/${repo.name}/commits/${commit.sha}`
                 );
 
                 if (commitDetailResponse.ok) {
