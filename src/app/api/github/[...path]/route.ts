@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
     request: Request,
-    context: { params: { path: string[] } }
+    { params }: { params: { path: string[] } }
 ) {
-    const { path } = context.params;
+    const { path } = params;
     const token = process.env.GITHUB_TOKEN;
 
     if (!token) {
