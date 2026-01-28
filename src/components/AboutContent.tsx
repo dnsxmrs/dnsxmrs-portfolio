@@ -29,7 +29,7 @@ export default function AboutContent() {
                         {/* Introduction */}
                         <div className="space-y-4">
                             <p className="text-lg text-[var(--muted-foreground)] leading-relaxed">
-                                Hey! I&apos;m <span className="text-[var(--foreground)] font-semibold">Erice Marial</span>{' '}
+                                Hey! I&apos;m <span className="text-[var(--foreground)] font-semibold">Erice Michael D. Marial</span>{' '}
                                 (
                                 <a
                                     href="https://github.com/dnsxmrs"
