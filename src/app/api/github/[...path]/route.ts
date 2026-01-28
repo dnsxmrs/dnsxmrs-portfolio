@@ -1,10 +1,11 @@
-import { NextResponse } from 'next/server';
+
+import { NextResponse, type NextRequest } from 'next/server';
 
 export async function GET(
-    request: Request,
-    { params }: { params: { path: string[] } }
+    request: NextRequest,
+    context: { params: { path: string[] } }
 ) {
-    const { path } = params;
+    const { path } = context.params;
     const token = process.env.GITHUB_TOKEN;
 
     if (!token) {
