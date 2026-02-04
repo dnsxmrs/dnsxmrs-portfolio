@@ -107,12 +107,12 @@ export default function NewHero() {
                         onClick={() => setPrimeOpen((v) => !v)}
                         aria-label="Show PRIME Philippines details"
                     >
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block align-middle"><circle cx="12" cy="12" r="10" fill="#1A237E" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="white" fontFamily="Arial" fontWeight="bold">PR</text></svg>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block align-middle sm:w-10 sm:h-10"><circle cx="12" cy="12" r="10" fill="#1A237E" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="white" fontFamily="Arial" fontWeight="bold">PR</text></svg>
                         <span className="text-[var(--foreground)] text-sm group-hover:text-[var(--accent)] transition-colors">PRIME Philippines</span>
                     </button>
                     {/* Popover for PRIME Philippines */}
                     {primeOpen && (
-                        <div ref={popupRef} className="absolute left-0 bottom-15 z-10 w-96 bg-[var(--background)] border border-[var(--border)] rounded-xl shadow-[0_0_40px_15px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_15px_rgba(0,0,0,0.3)] p-5 text-left animate-fade-in">
+                        <div ref={popupRef} className="absolute left-0 bottom-15 z-10 w-full max-w-sm sm:max-w-md md:w-96 bg-[var(--background)] border border-[var(--border)] rounded-xl shadow-[0_0_40px_15px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_15px_rgba(0,0,0,0.3)] p-5 text-left animate-fade-in">
                             <div className="flex gap-4">
                                 {/* Left side - Logo */}
                                 <div className="flex-shrink-0">
@@ -166,11 +166,13 @@ export default function NewHero() {
                         {/* Replace with your actual GitHub repos */}
                         <FeaturedProjectCard owner="dnsxmrs" repo="sjsfi-sis-registrar" />
                         <FeaturedProjectCard owner="dnsxmrs" repo="sjsfi-sis-student" />
+                        <FeaturedProjectCard owner="dnsxmrs" repo="fiweb" />
+                        <FeaturedProjectCard owner="dnsxmrs" repo="kds" />
                     </div>
                 </div>
 
                 {/* GitHub Activity Section */}
-                <div className="mt-30 grid gap-6 md:grid-cols-2">
+                <div className="mt-24 grid grid-cols-1 gap-6 md:grid-cols-2">
                     <RecentCommits username="dnsxmrs" limit={5} />
                     <GithubStatsCard username="dnsxmrs" />
                 </div>

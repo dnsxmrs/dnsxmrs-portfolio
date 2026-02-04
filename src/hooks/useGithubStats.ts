@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 
+interface GithubEvent {
+    type: string;
+}
+
 export interface GithubStats {
     publicRepos: number;
     followers: number;
@@ -31,9 +35,9 @@ export function useGithubStats(username: string) {
                 let totalCommits = 0;
                 let totalPRs = 0;
                 let totalIssues = 0;
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                events.forEach((event: any) => {
-                    if (event.type === 'PushEvent') totalCommits += event.payload.commits?.length || 0;
+
+                events.forEach((event: GithubEvent) => {
+                    if (event.type === 'PushEvent') totalCommits += 1;
                     if (event.type === 'PullRequestEvent') totalPRs += 1;
                     if (event.type === 'IssuesEvent') totalIssues += 1;
                 });

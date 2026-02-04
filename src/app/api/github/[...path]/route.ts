@@ -33,7 +33,7 @@ export async function GET(
         });
 
         const data = await res.json();
-        
+
         // Forward the Link header for pagination support
         const linkHeader = res.headers.get('Link');
         const headers: HeadersInit = {
@@ -41,14 +41,14 @@ export async function GET(
             // This significantly reduces API calls while keeping data fresh
             'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600',
         };
-        
+
         if (linkHeader) {
             headers['Link'] = linkHeader;
         }
 
-        return NextResponse.json(data, { 
+        return NextResponse.json(data, {
             status: res.status,
-            headers 
+            headers
         });
     } catch (error) {
         console.error('GitHub API Error:', error);

@@ -68,7 +68,7 @@ export default function FeaturedProjectCard({ owner, repo }: FeaturedProjectCard
         React: 'text-blue-500 bg-blue-500/10',
         'Node.js': 'text-green-500 bg-green-500/10',
         Vue: 'text-green-400 bg-green-400/10',
-        Laravel: 'text-red-500 bg-red-500/10',
+        Blade: 'text-red-500 bg-red-500/10',
         Tailwind: 'text-cyan-500 bg-cyan-500/10',
     };
 
