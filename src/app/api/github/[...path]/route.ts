@@ -2,9 +2,9 @@ import { NextResponse, type NextRequest } from 'next/server';
 
 export async function GET(
     request: NextRequest,
-    context: { params: { path: string[] } }
+    context: { params: Promise<{ path: string[] }> }
 ) {
-    const { path } = context.params;
+    const { path } = await context.params;
     const { searchParams } = new URL(request.url);
     const token = process.env.GITHUB_TOKEN;
 
