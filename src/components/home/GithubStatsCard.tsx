@@ -42,14 +42,6 @@ export default function GithubStatsCard({ username }: GithubStatsCardProps) {
                 <h3 className="text-lg font-semibold text-[var(--foreground)] flex items-center gap-2">
                     <BarChart3 className="h-5 w-5" /> GitHub Quick Stats
                 </h3>
-                {/* <a
-                    href={`https://github.com/${username}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-[var(--accent)] hover:underline flex items-center gap-1"
-                >
-                    <Github className="h-4 w-4" /> View Profile
-                </a> */}
             </div>
             <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center gap-2">

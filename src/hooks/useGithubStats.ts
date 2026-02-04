@@ -18,12 +18,12 @@ export function useGithubStats(username: string) {
         async function fetchStats() {
             try {
                 setLoading(true);
-                // Fetch user profile
+                // Fetch user profile via Next.js proxy
                 const userRes = await fetch(`/api/github/users/${username}`);
                 if (!userRes.ok) throw new Error('Failed to fetch user profile');
                 const user = await userRes.json();
 
-                // Fetch PRs and Issues (last 100 events)
+                // Fetch PRs and Issues (last 100 events) via Next.js proxy
                 const eventsRes = await fetch(`/api/github/users/${username}/events/public`);
                 if (!eventsRes.ok) throw new Error('Failed to fetch user events');
                 const events = await eventsRes.json();

@@ -1,17 +1,14 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import Footer from "@/components/Footer";
+import Navigation from "@/components/Navigation";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import "./globals.css";
-import Navigation from "@/components/Navigation";
+import type { Metadata } from "next";
+import { JetBrains_Mono } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  fallback: ["monospace"],
 });
 
 export const metadata: Metadata = {
@@ -41,11 +38,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${jetbrainsMono.variable} antialiased font-[family-name:var(--font-jetbrains-mono)]`}
       >
         <ThemeProvider>
           <Navigation />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

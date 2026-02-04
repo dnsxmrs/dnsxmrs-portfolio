@@ -1,5 +1,6 @@
 import { Github, Linkedin, Mail } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function AboutContent() {
     return (
@@ -140,35 +141,41 @@ export default function AboutContent() {
                         </div>
 
                         {/* Social Links */}
-                        <div className="flex flex-wrap items-center gap-4 pt-6">
-                            <a
-                                href="https://github.com/dnsxmrs"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
-                            >
-                                <Github className="h-5 w-5" />
-                                <span className="text-sm">GitHub</span>
-                            </a>
-                            <span className="text-[var(--muted-foreground)]">×</span>
-                            <a
-                                href="https://www.linkedin.com/in/erice-michael-marial-76b74a300/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
-                            >
-                                <Linkedin className="h-5 w-5" />
-                                <span className="text-sm">LinkedIn</span>
-                            </a>
-                            <span className="text-[var(--muted-foreground)]">×</span>
-                            <a
-                                href="mailto:ericemarial@gmail.com"
-                                className="flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
-                            >
-                                <Mail className="h-5 w-5" />
-                                <span className="text-sm">Email</span>
-                            </a>
-                        </div>
+                    <div className="flex flex-wrap items-center gap-6">
+                        <Link
+                            href="https://github.com/dnsxmrs"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors group"
+                        >
+                            <Github className="h-5 w-5" />
+                            <span className="text-sm border-b border-transparent group-hover:border-[var(--foreground)] transition-colors">
+                                GitHub
+                            </span>
+                        </Link>
+                        <span className="text-[var(--border)]">|</span>
+                        <a
+                            href="https://www.linkedin.com/in/erice-michael-marial-76b74a300/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors group"
+                        >
+                            <Linkedin className="h-5 w-5" />
+                            <span className="text-sm border-b border-transparent group-hover:border-[var(--foreground)] transition-colors">
+                                LinkedIn
+                            </span>
+                        </a>
+                        <span className="text-[var(--border)]">|</span>
+                        <a
+                            href="mailto:ericemarial@gmail.com"
+                            className="flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors group"
+                        >
+                            <Mail className="h-5 w-5" />
+                            <span className="text-sm border-b border-transparent group-hover:border-[var(--foreground)] transition-colors">
+                                Email
+                            </span>
+                        </a>
+                    </div>
                     </div>
                 </div>
             </div>

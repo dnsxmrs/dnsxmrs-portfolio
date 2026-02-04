@@ -43,7 +43,7 @@ export function useGithubRepo(owner: string, repo: string) {
                 setLoading(true);
                 setError(null);
 
-                // Fetch repository details
+                // Fetch repository details via Next.js proxy
                 const repoResponse = await fetch(
                     `/api/github/repos/${owner}/${repo}`
                 );
@@ -54,7 +54,7 @@ export function useGithubRepo(owner: string, repo: string) {
 
                 const repoData: GitHubRepo = await repoResponse.json();
 
-                // Fetch contributors count
+                // Fetch contributors count via Next.js proxy
                 const contributorsResponse = await fetch(
                     `/api/github/repos/${owner}/${repo}/contributors?per_page=1`
                 );
@@ -71,8 +71,10 @@ export function useGithubRepo(owner: string, repo: string) {
                     }
                 }
 
-                // Fetch languages
-                const languagesResponse = await fetch(repoData.languages_url.replace('https://api.github.com', '/api/github'));
+                // Fetch languages via Next.js proxy
+                const languagesResponse = await fetch(
+                    `/api/github/repos/${owner}/${repo}/languages`
+                );
                 const languages: Record<string, number> = languagesResponse.ok
                     ? await languagesResponse.json()
                     : {};

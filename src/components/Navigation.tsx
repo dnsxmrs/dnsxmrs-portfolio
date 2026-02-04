@@ -38,24 +38,30 @@ export default function Navigation() {
 
     return (
         <nav className="sticky top-0 z-50 w-full border-b border-[var(--border)] bg-[var(--background)]/80 backdrop-blur-md">
-            <div className="container mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div className="font-mono text-lg font-semibold text-[var(--foreground)] flex items-center">
                     {breadcrumbs}
                 </div>
 
                 <div className="flex items-center space-x-8">
                     <Link
+                        href="/"
+                        className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)] focus:text-[var(--foreground)] focus:outline-none"
+                    >
+                        Home
+                    </Link>
+                    <Link
                         href="/about"
                         className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)] focus:text-[var(--foreground)] focus:outline-none"
                     >
                         About
                     </Link>
-                    {/* <Link
-                        href="#projects"
+                    <Link
+                        href="/projects"
                         className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)] focus:text-[var(--foreground)] focus:outline-none"
                     >
                         Projects
-                    </Link> */}
+                    </Link>
                 </div>
             </div>
         </nav>

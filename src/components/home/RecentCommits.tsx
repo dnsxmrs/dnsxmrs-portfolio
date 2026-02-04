@@ -1,6 +1,6 @@
 'use client';
 
-import { ExternalLink, Zap } from 'lucide-react';
+import { ExternalLink, Link, Zap } from 'lucide-react';
 import { useGithubCommits } from '@/hooks/useGithubCommits';
 
 interface RecentCommitsProps {
@@ -52,10 +52,10 @@ export default function RecentCommits({ username, limit = 5 }: RecentCommitsProp
       <div className="space-y-3">
         {commits.map((commit) => (
           <a
+            rel="noopener noreferrer"
             key={commit.sha}
             href={commit.url}
             target="_blank"
-            rel="noopener noreferrer"
             className="block group"
           >
             <div className="flex items-start justify-between gap-3">
@@ -75,9 +75,9 @@ export default function RecentCommits({ username, limit = 5 }: RecentCommitsProp
       </div>
 
       <a
+        rel="noopener noreferrer"
         href={`https://github.com/${username}`}
         target="_blank"
-        rel="noopener noreferrer"
         className="mt-4 inline-flex items-center gap-1 text-sm text-[var(--accent)] hover:underline"
       >
         View on GitHub <ExternalLink className="h-3 w-3" />

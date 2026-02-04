@@ -38,7 +38,7 @@ export function useGithubCommits(username: string, limit: number = 5) {
         setLoading(true);
         setError(null);
 
-        // Get user's repositories
+        // Get user's repositories via Next.js proxy
         const reposResponse = await fetch(
           `/api/github/users/${username}/repos?sort=updated&per_page=10`
         );
@@ -61,7 +61,7 @@ export function useGithubCommits(username: string, limit: number = 5) {
               const repoCommits: GitHubCommit[] = await commitsResponse.json();
 
               for (const commit of repoCommits) {
-                // Fetch commit details for stats
+                // Fetch commit details for stats via Next.js proxy
                 const commitDetailResponse = await fetch(
                   `/api/github/repos/${username}/${repo.name}/commits/${commit.sha}`
                 );
