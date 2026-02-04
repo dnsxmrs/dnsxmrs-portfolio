@@ -1,6 +1,6 @@
 'use client';
 
-import { ExternalLink, Link, Zap } from 'lucide-react';
+import { ExternalLink, Zap } from 'lucide-react';
 import { useGithubCommits } from '@/hooks/useGithubCommits';
 
 interface RecentCommitsProps {
