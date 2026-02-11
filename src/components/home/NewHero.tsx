@@ -100,17 +100,17 @@ export default function NewHero() {
 
                 {/* Experience Bar */}
                 <div className="flex flex-wrap items-center gap-4 mt-8 text-sm sm:text-base md:text-lg font-medium text-[var(--muted-foreground)] relative">
-                    {/* PRIME Philippines - Current */}
+                    {/* My GreatWork Spaces Inc. - Current */}
                     <button
                         type="button"
                         className="flex items-center gap-2 focus:outline-none group relative cursor-pointer hover:scale-105 transition-transform duration-200"
                         onClick={() => setPrimeOpen((v) => !v)}
-                        aria-label="Show PRIME Philippines details"
+                        aria-label="Show My GreatWork Spaces Inc. details"
                     >
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block align-middle sm:w-10 sm:h-10"><circle cx="12" cy="12" r="10" fill="#1A237E" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="white" fontFamily="Arial" fontWeight="bold">PR</text></svg>
-                        <span className="text-[var(--foreground)] text-sm group-hover:text-[var(--accent)] transition-colors">PRIME Philippines</span>
+                        <span className="text-[var(--foreground)] text-sm group-hover:text-[var(--accent)] transition-colors">My GreatWork Spaces Inc.</span>
                     </button>
-                    {/* Popover for PRIME Philippines */}
+                    {/* Popover for My GreatWork Spaces Inc. */}
                     {primeOpen && (
                         <div ref={popupRef} className="absolute left-0 bottom-15 z-10 w-full max-w-sm sm:max-w-md md:w-96 bg-[var(--background)] border border-[var(--border)] rounded-xl shadow-[0_0_40px_15px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_15px_rgba(0,0,0,0.3)] p-5 text-left animate-fade-in">
                             <div className="flex gap-4">
@@ -126,7 +126,7 @@ export default function NewHero() {
                                 {/* Right side - Content */}
                                 <div className="flex-1 min-w-0 mb-4">
                                     <div className="flex items-start justify-between py-0">
-                                        <h3 className="font-medium text-sm text-[var(--foreground)]">PRIME Philippines</h3>
+                                        <h3 className="font-medium text-sm text-[var(--foreground)]">My GreatWork Spaces Inc.</h3>
                                         <button onClick={() => setPrimeOpen(false)} aria-label="Close" className="p-1 rounded hover:bg-[var(--border)] flex-shrink-0">
                                             <X className="w-4 h-4 text-[var(--muted-foreground)]" />
                                         </button>
@@ -136,7 +136,7 @@ export default function NewHero() {
                             </div>
                             {/* Description */}
                             <div className="text-sm text-[var(--muted-foreground)] mb-3 leading-relaxed">
-                                Currently an intern at PRIME Philippines, helping make operations more efficient and assisting the senior supervisor with daily tasks and process improvements.
+                                Currently an intern at My GreatWork Spaces Inc., helping make operations more efficient and assisting the senior supervisor with daily tasks and process improvements.
                             </div>
 
                             {/* Date */}
