@@ -107,7 +107,7 @@ export default function NewHero() {
                         onClick={() => setPrimeOpen((v) => !v)}
                         aria-label="Show My GreatWork Spaces Inc. details"
                     >
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block align-middle sm:w-10 sm:h-10"><circle cx="12" cy="12" r="10" fill="#1A237E" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="white" fontFamily="Arial" fontWeight="bold">PR</text></svg>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block align-middle sm:w-10 sm:h-10"><circle cx="12" cy="12" r="10" fill="#1A237E" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="white" fontFamily="Arial" fontWeight="bold">GW</text></svg>
                         <span className="text-[var(--foreground)] text-sm group-hover:text-[var(--accent)] transition-colors">My GreatWork Spaces Inc.</span>
                     </button>
                     {/* Popover for My GreatWork Spaces Inc. */}
