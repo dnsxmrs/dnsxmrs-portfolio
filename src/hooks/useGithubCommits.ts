@@ -51,11 +51,12 @@ export function useGithubCommits(username: string, limit: number = 5) {
         const repos = await reposResponse.json();
         const allCommits: CommitData[] = [];
 
-        // Fetch commits from each repo
-        for (const repo of repos.slice(0, 5)) {
+        // Fetch commits from each repo - get enough to ensure we have the latest commits
+        // We'll fetch from all repos and then sort to get the actual latest commits
+        for (const repo of repos) {
           try {
             const commitsResponse = await fetch(
-              `/api/github/repos/${username}/${repo.name}/commits?per_page=3&author=${username}`,
+              `/api/github/repos/${username}/${repo.name}/commits?per_page=${limit}&author=${username}`,
               { cache: 'no-store' }
             );
 
@@ -87,6 +88,15 @@ export function useGithubCommits(username: string, limit: number = 5) {
             }
           } catch (err) {
             console.error(`Error fetching commits for ${repo.name}:`, err);
+          }
+
+          // Early exit if we already have enough commits after sorting
+          if (allCommits.length >= limit * 2) {
+            const sorted = allCommits.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            // If the oldest commit in our top `limit` is newer than the repo's updated_at, we can stop
+            if (sorted.length >= limit) {
+              break;
+            }
           }
         }
 
