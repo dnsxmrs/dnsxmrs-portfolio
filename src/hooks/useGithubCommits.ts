@@ -40,7 +40,8 @@ export function useGithubCommits(username: string, limit: number = 5) {
 
         // Get user's repositories via Next.js proxy
         const reposResponse = await fetch(
-          `/api/github/users/${username}/repos?sort=updated&per_page=10`
+          `/api/github/users/${username}/repos?sort=updated&per_page=10`,
+          { cache: 'no-store' }
         );
 
         if (!reposResponse.ok) {
@@ -54,7 +55,8 @@ export function useGithubCommits(username: string, limit: number = 5) {
         for (const repo of repos.slice(0, 5)) {
           try {
             const commitsResponse = await fetch(
-              `/api/github/repos/${username}/${repo.name}/commits?per_page=3&author=${username}`
+              `/api/github/repos/${username}/${repo.name}/commits?per_page=3&author=${username}`,
+              { cache: 'no-store' }
             );
 
             if (commitsResponse.ok) {
@@ -63,7 +65,8 @@ export function useGithubCommits(username: string, limit: number = 5) {
               for (const commit of repoCommits) {
                 // Fetch commit details for stats via Next.js proxy
                 const commitDetailResponse = await fetch(
-                  `/api/github/repos/${username}/${repo.name}/commits/${commit.sha}`
+                  `/api/github/repos/${username}/${repo.name}/commits/${commit.sha}`,
+                  { cache: 'no-store' }
                 );
 
                 if (commitDetailResponse.ok) {

@@ -28,8 +28,7 @@ export async function GET(
                 'X-GitHub-Api-Version': '2022-11-28',
                 Accept: 'application/vnd.github+json',
             },
-            // Cache for 1 hour on server, revalidate in background
-            next: { revalidate: 3600 },
+            cache: 'no-store',
         });
 
         const data = await res.json();
@@ -37,9 +36,7 @@ export async function GET(
         // Forward the Link header for pagination support
         const linkHeader = res.headers.get('Link');
         const headers: HeadersInit = {
-            // Cache in browser for 5 minutes, stale-while-revalidate for 1 hour
-            // This significantly reduces API calls while keeping data fresh
-            'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600',
+            'Cache-Control': 'no-store, max-age=0',
         };
 
         if (linkHeader) {

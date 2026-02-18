@@ -45,7 +45,8 @@ export function useGithubRepo(owner: string, repo: string) {
 
                 // Fetch repository details via Next.js proxy
                 const repoResponse = await fetch(
-                    `/api/github/repos/${owner}/${repo}`
+                    `/api/github/repos/${owner}/${repo}`,
+                    { cache: 'no-store' }
                 );
 
                 if (!repoResponse.ok) {
@@ -56,7 +57,8 @@ export function useGithubRepo(owner: string, repo: string) {
 
                 // Fetch contributors count via Next.js proxy
                 const contributorsResponse = await fetch(
-                    `/api/github/repos/${owner}/${repo}/contributors?per_page=1`
+                    `/api/github/repos/${owner}/${repo}/contributors?per_page=1`,
+                    { cache: 'no-store' }
                 );
 
                 let contributorsCount = 0;
@@ -73,7 +75,8 @@ export function useGithubRepo(owner: string, repo: string) {
 
                 // Fetch languages via Next.js proxy
                 const languagesResponse = await fetch(
-                    `/api/github/repos/${owner}/${repo}/languages`
+                    `/api/github/repos/${owner}/${repo}/languages`,
+                    { cache: 'no-store' }
                 );
                 const languages: Record<string, number> = languagesResponse.ok
                     ? await languagesResponse.json()
