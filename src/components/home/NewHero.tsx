@@ -44,7 +44,7 @@ export default function NewHero() {
                     {/* Description */}
                     <div className="max-w-3xl">
                         <p className="mt-4 text-base sm:text-lg md:text-xl text-[var(--muted-foreground)] leading-relaxed">
-                            I&apos;m an aspiring <span className="text-[var(--foreground)]">Backend Developer</span>. I create technologies through apps, web platforms, and systems that make human life easier.
+                            I&apos;m an aspiring <span className="text-[var(--foreground)]">Full Stack Developer</span>. I create technologies through apps, web platforms, and systems that make human life easier.
                             Currently exploring modern tech stacks while leveraging {''}
                             <span className="text-[var(--foreground)]">AI as both a development tool and a feature</span> —
                             building smarter applications that enhance user experiences.
