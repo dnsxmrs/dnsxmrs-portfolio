@@ -41,7 +41,9 @@ export async function GET(request: Request) {
             const res = await fetch(`https://api.github.com/repos/${username}/${repo.name}/commits?per_page=3&author=${username}`, {
                 headers: { Authorization: `token ${process.env.GITHUB_TOKEN}` }
             });
-            return res.ok ? await res.json() : [];
+            if (!res.ok) return [];
+            const commits: GitHubCommit[] = await res.json();
+            return commits.map((c) => ({ ...c, repository: { name: repo.name } }));
         });
 
         const results = await Promise.all(commitPromises);
