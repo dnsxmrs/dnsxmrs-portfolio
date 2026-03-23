@@ -2,6 +2,8 @@ import { Layers } from 'lucide-react';
 import FeaturedProjectCard from '@/components/home/FeaturedProjectCard';
 
 const FEATURED_REPOS = [
+    { owner: 'gewawddd', repo: 'Singko_Technopreneurship' },
+    { owner: 'BenJr23', repo: 'mgsi-ims' },
     { owner: 'dnsxmrs', repo: 'ai-conversation-analyzer' },
     { owner: 'dnsxmrs', repo: 'mgsi-bms-staff' },
     { owner: 'BenJr23', repo: 'mgsi-bms-superadmin' },
