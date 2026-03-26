@@ -117,8 +117,8 @@ export default function NewHero() {
                                 {/* Left side - Logo */}
                                 <div className="flex-shrink-0">
                                     <div className="w-10 h-10 rounded-full bg-[#1A237E] flex items-center justify-center">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <text x="12" y="16" textAnchor="middle" fontSize="12" fill="white" fontFamily="Arial" fontWeight="bold">PR</text>
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="7F0B06" xmlns="http://www.w3.org/2000/svg">
+                                            <text x="12" y="16" textAnchor="middle" fontSize="12" fill="white" fontFamily="Arial" fontWeight="bold">GW</text>
                                         </svg>
                                     </div>
                                 </div>
