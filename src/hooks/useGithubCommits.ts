@@ -18,7 +18,12 @@ export function useGithubCommits(username: string, limit: number = 5) {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`/api/github/latest-commits?username=${username}&limit=${limit}`);
+        setLoading(true);
+        setError(null);
+
+        const res = await fetch(`/api/github/latest-commits?username=${encodeURIComponent(username)}&limit=${limit}`, {
+          cache: 'no-store',
+        });
 
         if (!res.ok) {
           const errorData = await res.json();

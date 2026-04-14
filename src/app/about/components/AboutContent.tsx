@@ -40,7 +40,7 @@ export default function AboutContent() {
                                 >
                                     @dnsxmrs
                                 </a>
-                                ) — an aspiring Backend Developer based in the Philippines. I like to build{' '}
+                                ) — an aspiring Full Stack Developer based in the Philippines. I like to build{' '}
                                 <span className="text-[var(--foreground)]">systems that simplify complex workflows</span>.
                             </p>
 

@@ -14,7 +14,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "dnsxmrs - Portfolio",
   description: "Fullstack Developer with backend expertise in Laravel, C#, Python, React, PostgreSQL, and MySQL. Passionate about clean architecture and scalable systems.",
-  keywords: "fullstack developer, backend developer, Laravel, C#, Python, React, PostgreSQL, MySQL, web development",
+  keywords: "full stack developer, backend developer, Laravel, C#, Python, React, PostgreSQL, MySQL, web development",
   authors: [{ name: "Erice Michael D. Marial" }],
   creator: "Erice Michael D. Marial",
   openGraph: {
