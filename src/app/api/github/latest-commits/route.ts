@@ -13,6 +13,7 @@ export async function GET(request: Request) {
     try {
         const finalCommits = await getLatestUserCommits(username, limit, {
             token: process.env.GITHUB_TOKEN,
+            cacheTtlMs: 0,
         });
 
         return NextResponse.json(finalCommits, {

@@ -12,6 +12,9 @@ export interface Commit {
 interface GitHubRepo {
     name: string;
     pushed_at: string;
+    owner?: {
+        login: string;
+    };
 }
 
 interface GitHubCommitListItem {
@@ -96,23 +99,39 @@ export async function getLatestUserCommits(
     }
 
     const headers = buildHeaders(token);
-    const reposUrl = `https://api.github.com/users/${encodeURIComponent(safeUsername)}/repos?sort=pushed&per_page=100`;
+    const publicReposUrl = `https://api.github.com/users/${encodeURIComponent(safeUsername)}/repos?sort=pushed&per_page=100`;
+    const ownedReposUrl = 'https://api.github.com/user/repos?sort=pushed&per_page=100&affiliation=owner';
 
     let repos: GitHubRepo[] = [];
     try {
-        const reposRes = await fetch(reposUrl, {
-            headers,
-            next: { revalidate: 0 },
-        });
+        const [publicReposRes, ownedReposRes] = await Promise.all([
+            fetch(publicReposUrl, {
+                headers,
+                next: { revalidate: 0 },
+            }),
+            token
+                ? fetch(ownedReposUrl, {
+                    headers,
+                    next: { revalidate: 0 },
+                })
+                : Promise.resolve(null),
+        ]);
 
-        if (!reposRes.ok) {
-            return [];
+        const publicReposJson: unknown = publicReposRes.ok ? await publicReposRes.json() : [];
+        const publicRepos = Array.isArray(publicReposJson) ? (publicReposJson as GitHubRepo[]) : [];
+
+        let ownedRepos: GitHubRepo[] = [];
+        if (ownedReposRes && ownedReposRes.ok) {
+            const ownedReposJson: unknown = await ownedReposRes.json();
+            if (Array.isArray(ownedReposJson)) {
+                ownedRepos = (ownedReposJson as GitHubRepo[]).filter(
+                    (repo) => repo.owner?.login?.toLowerCase() === safeUsername.toLowerCase()
+                );
+            }
         }
 
-        const reposJson: unknown = await reposRes.json();
-        if (Array.isArray(reposJson)) {
-            repos = reposJson as GitHubRepo[];
-        }
+        // Merge public + token-auth owned repos and dedupe by repo name.
+        repos = Array.from(new Map([...publicRepos, ...ownedRepos].map((repo) => [repo.name, repo])).values());
     } catch {
         return [];
     }
@@ -126,7 +145,7 @@ export async function getLatestUserCommits(
         .slice(0, DEFAULT_REPO_LIMIT);
 
     const commitRequests = topRepos.map(async (repo) => {
-        const commitsUrl = `https://api.github.com/repos/${encodeURIComponent(safeUsername)}/${encodeURIComponent(repo.name)}/commits?per_page=${DEFAULT_COMMITS_PER_REPO}`;
+        const commitsUrl = `https://api.github.com/repos/${encodeURIComponent(safeUsername)}/${encodeURIComponent(repo.name)}/commits?per_page=${DEFAULT_COMMITS_PER_REPO}&author=${encodeURIComponent(safeUsername)}`;
 
         try {
             const commitsRes = await fetch(commitsUrl, {
