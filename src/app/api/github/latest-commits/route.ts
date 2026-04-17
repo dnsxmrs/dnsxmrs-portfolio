@@ -2,21 +2,27 @@ import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-interface Repo {
-    name: string;
+interface EventCommit {
+    sha: string;
+    message: string;
+    url: string; // API URL for commit details
 }
 
-interface GitHubCommit {
+interface PushEvent {
+    type: string;
+    repo: { name: string }; // "user/repo"
+    created_at: string;
+    payload: {
+        commits?: EventCommit[];
+    };
+}
+
+interface CommitDetail {
     sha: string;
-    url: string;
     commit: {
-        message: string;
         author: {
             date: string;
         };
-    };
-    repository?: {
-        name: string;
     };
     stats?: {
         additions: number;
@@ -42,64 +48,78 @@ export async function GET(request: Request) {
             githubHeaders.Authorization = `Bearer ${token}`;
         }
 
-        // 1. Fetch repos (sorted by last updated)
-        const reposRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=5`, {
-            headers: githubHeaders,
-            cache: 'no-store',
-        });
+        // 1. Fetch recent events across ALL repos in a single call
+        const eventsRes = await fetch(
+            `https://api.github.com/users/${username}/events?per_page=100`,
+            { headers: githubHeaders, cache: 'no-store' }
+        );
 
-        if (!reposRes.ok) {
-            const err = await reposRes.json().catch(() => ({}));
+        if (!eventsRes.ok) {
+            const err = await eventsRes.json().catch(() => ({}));
             return NextResponse.json(
-                { error: err?.message || 'Failed to fetch repositories from GitHub' },
-                { status: reposRes.status }
+                { error: err?.message || 'Failed to fetch events from GitHub' },
+                { status: eventsRes.status }
             );
         }
 
-        const reposJson: unknown = await reposRes.json();
-        const repos: Repo[] = Array.isArray(reposJson) ? reposJson : [];
+        const events: PushEvent[] = await eventsRes.json();
 
-        // 2. Fetch commits from these repos in PARALLEL
-        const commitPromises = repos.map(async (repo: Repo) => {
-            const res = await fetch(`https://api.github.com/repos/${username}/${repo.name}/commits?per_page=3&author=${username}`, {
-                headers: githubHeaders,
-                cache: 'no-store',
-            });
-            if (!res.ok) return [];
-            const commits: GitHubCommit[] = await res.json();
-            return commits.map((c) => ({ ...c, repository: { name: repo.name } }));
-        });
+        // 2. Extract individual commits from PushEvents (already chronological)
+        const rawCommits: { sha: string; message: string; url: string; repo: string; eventDate: string }[] = [];
 
-        const results = await Promise.all(commitPromises);
-        const allCommits: GitHubCommit[] = results.flat();
+        for (const event of events) {
+            if (event.type !== 'PushEvent' || !event.payload.commits) continue;
 
-        // 3. Sort and limit
-        const latestCommits = allCommits
-            .sort((a, b) => new Date(b.commit.author.date).getTime() - new Date(a.commit.author.date).getTime())
-            .slice(0, limit);
+            const repoShortName = event.repo.name.split('/')[1] || event.repo.name;
 
-        // 4. Fetch details (stats) for only the final survivors
-        const finalCommits = await Promise.all(latestCommits.map(async (c: GitHubCommit) => {
-            const detailRes = await fetch(c.url, {
-                headers: githubHeaders,
-                cache: 'no-store',
-            });
-            const details: GitHubCommit | null = detailRes.ok ? await detailRes.json() : null;
-            return {
-                sha: c.sha,
-                message: c.commit.message.split('\n')[0],
-                date: c.commit.author.date,
-                additions: details?.stats?.additions || 0,
-                deletions: details?.stats?.deletions || 0,
-                repo: c.repository?.name || "Unknown"
-            };
-        }));
+            for (const commit of event.payload.commits) {
+                rawCommits.push({
+                    sha: commit.sha,
+                    message: commit.message.split('\n')[0],
+                    url: commit.url,
+                    repo: repoShortName,
+                    eventDate: event.created_at,
+                });
+            }
+        }
+
+        // 3. Deduplicate by SHA (same commit can appear in multiple events) & take top N
+        const seen = new Set<string>();
+        const uniqueCommits = rawCommits.filter((c) => {
+            if (seen.has(c.sha)) return false;
+            seen.add(c.sha);
+            return true;
+        }).slice(0, limit);
+
+        // 4. Fetch stats for only the final commits
+        const finalCommits = await Promise.all(
+            uniqueCommits.map(async (c) => {
+                const detailRes = await fetch(c.url, {
+                    headers: githubHeaders,
+                    cache: 'no-store',
+                });
+                const details: CommitDetail | null = detailRes.ok ? await detailRes.json() : null;
+
+                return {
+                    sha: c.sha,
+                    message: c.message,
+                    date: details?.commit?.author?.date || c.eventDate,
+                    additions: details?.stats?.additions || 0,
+                    deletions: details?.stats?.deletions || 0,
+                    repo: c.repo,
+                    url: `https://github.com/${username}/${c.repo}/commit/${c.sha}`,
+                };
+            })
+        );
 
         return NextResponse.json(finalCommits, {
-            headers: { 'Cache-Control': 'no-store, max-age=0' }
+            headers: { 'Cache-Control': 'no-store, max-age=0' },
         });
     } catch (error: unknown) {
         console.error('Failed to sync GitHub commits:', error);
-        return NextResponse.json({ error: error instanceof Error ? error.message : 'Failed to sync commits' }, { status: 500 });
+        return NextResponse.json(
+            { error: error instanceof Error ? error.message : 'Failed to sync commits' },
+            { status: 500 }
+        );
     }
 }

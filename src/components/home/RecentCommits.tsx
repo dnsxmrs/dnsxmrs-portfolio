@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { ExternalLink, Zap } from 'lucide-react';
 import { useGithubCommits } from '@/hooks/useGithubCommits';
 
@@ -8,25 +9,25 @@ interface RecentCommitsProps {
   limit?: number;
 }
 
-export default function RecentCommits({ username, limit = 5 }: RecentCommitsProps) {
-  const { commits, loading, error } = useGithubCommits(username, limit);
-
-  if (loading) {
-    return (
-      <div className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-[var(--foreground)] flex items-center gap-2">
-            <Zap className="h-5 w-5" /> Recent Commits
-          </h3>
-        </div>
-        <div className="space-y-3 animate-pulse">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-12 bg-[var(--muted)] rounded"></div>
-          ))}
-        </div>
+function CommitsSkeleton() {
+  return (
+    <div className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-[var(--foreground)] flex items-center gap-2">
+          <Zap className="h-5 w-5" /> Recent Commits
+        </h3>
       </div>
-    );
-  }
+      <div className="space-y-3 animate-pulse">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-12 bg-[var(--muted)] rounded"></div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RecentCommitsInner({ username, limit = 5 }: RecentCommitsProps) {
+  const { commits, error } = useGithubCommits(username, limit);
 
   if (error || commits.length === 0) {
     return (
@@ -83,5 +84,13 @@ export default function RecentCommits({ username, limit = 5 }: RecentCommitsProp
         View on GitHub <ExternalLink className="h-3 w-3" />
       </a>
     </div>
+  );
+}
+
+export default function RecentCommits(props: RecentCommitsProps) {
+  return (
+    <Suspense fallback={<CommitsSkeleton />}>
+      <RecentCommitsInner {...props} />
+    </Suspense>
   );
 }
