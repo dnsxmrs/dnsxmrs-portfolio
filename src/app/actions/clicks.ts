@@ -24,6 +24,25 @@ export async function incrementClick() {
 }
 
 /**
+ * Atomically increments the global click counter by `amount`.
+ * Used for batched rapid clicks — the client accumulates clicks
+ * and flushes them in one call to avoid flooding the server.
+ */
+export async function incrementClickBy(amount: number) {
+  if (amount <= 0) return 0;
+
+  // Atomic increment by N — no race conditions
+  const newCount = await redis.incrby(REDIS_KEY, amount);
+
+  // Broadcast the final count to every connected client
+  await pusherServer.trigger(PUSHER_CHANNEL, PUSHER_EVENT, {
+    count: newCount,
+  });
+
+  return newCount;
+}
+
+/**
  * Reads the current global click count from Redis.
  * Used for initial hydration on component mount.
  */

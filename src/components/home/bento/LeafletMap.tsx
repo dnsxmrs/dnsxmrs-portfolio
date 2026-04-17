@@ -3,8 +3,8 @@
 import { useEffect, useRef } from 'react';
 
 // San Isidro, Rodriguez (Montalban), Rizal
-const LAT = 14.733;
-const LNG = 121.135;
+const LAT = 14.75350988448972;
+const LNG = 121.14156213840742;
 const ZOOM = 14;
 
 export default function LeafletMap() {

@@ -1,19 +1,47 @@
 'use client';
 
 import { MousePointerClick, Globe } from 'lucide-react';
-import { useState, useEffect, useRef, useCallback, useTransition } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import PusherClient from 'pusher-js';
-import { incrementClick, getClickCount } from '@/app/actions/clicks';
+import { incrementClickBy, getClickCount } from '@/app/actions/clicks';
 
 export default function ClickCounterWidget() {
     const [count, setCount] = useState<number | null>(null);
     const [clicks, setClicks] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
-    const [, startTransition] = useTransition();
     const [isLive, setIsLive] = useState(false);
     const rippleId = useRef(0);
     const buttonRef = useRef<HTMLButtonElement>(null);
+
+    // ── Batching: accumulate rapid clicks, flush to server periodically ──
+    const pendingClicks = useRef(0);
+    const flushTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const flushClicks = useCallback(() => {
+        const batch = pendingClicks.current;
+        if (batch <= 0) return;
+        pendingClicks.current = 0;
+
+        // Fire-and-forget — don't await so it never blocks the UI
+        incrementClickBy(batch).catch(() => {
+            // If the server call fails, the optimistic count will be
+            // corrected on the next Pusher broadcast or page reload.
+        });
+    }, []);
+
+    // Flush any remaining clicks when the component unmounts
+    useEffect(() => {
+        return () => {
+            if (flushTimer.current) clearTimeout(flushTimer.current);
+            // Flush synchronously before unmount
+            const batch = pendingClicks.current;
+            if (batch > 0) {
+                pendingClicks.current = 0;
+                incrementClickBy(batch).catch(() => { });
+            }
+        };
+    }, []);
 
     // ── Hydrate initial count from Redis + localStorage ──────────────
     useEffect(() => {
@@ -65,20 +93,22 @@ export default function ClickCounterWidget() {
         // Optimistic global update — feels instant
         setCount((prev) => (prev ?? 0) + 1);
 
-        // Track personal clicks in localStorage
-        const newClicks = clicks + 1;
-        setClicks(newClicks);
-        localStorage.setItem('portfolio-clicks', newClicks.toString());
+        // Track personal clicks — use functional updater to avoid stale closure
+        setClicks((prev) => {
+            const next = prev + 1;
+            localStorage.setItem('portfolio-clicks', next.toString());
+            return next;
+        });
 
         setIsAnimating(true);
         setTimeout(() => setIsAnimating(false), 250);
 
         spawnRipple(e);
 
-        // Fire the Server Action in a transition (non-blocking)
-        startTransition(() => {
-            incrementClick();
-        });
+        // Batch rapid clicks: accumulate and flush after 150ms of inactivity
+        pendingClicks.current += 1;
+        if (flushTimer.current) clearTimeout(flushTimer.current);
+        flushTimer.current = setTimeout(flushClicks, 150);
     };
 
     const displayCount = count !== null ? count.toLocaleString() : '—';
