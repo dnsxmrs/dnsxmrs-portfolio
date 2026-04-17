@@ -1,8 +1,8 @@
 'use client';
 
-import { Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { ExternalLink, Zap } from 'lucide-react';
-import { useGithubCommits } from '@/hooks/useGithubCommits';
+import type { Commit as CommitData } from '@/lib/github';
 
 interface RecentCommitsProps {
   username: string;
@@ -27,7 +27,56 @@ function CommitsSkeleton() {
 }
 
 function RecentCommitsInner({ username, limit = 5 }: RecentCommitsProps) {
-  const { commits, error } = useGithubCommits(username, limit);
+  const [commits, setCommits] = useState<CommitData[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadCommits() {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const res = await fetch(
+          `/api/github/latest-commits?username=${encodeURIComponent(username)}&limit=${limit}`,
+          {
+            cache: 'no-store',
+            signal: controller.signal,
+          }
+        );
+
+        if (!res.ok) {
+          const errorData = (await res.json().catch(() => ({}))) as { error?: string };
+          setCommits([]);
+          setError(errorData.error ?? 'Failed to fetch commits');
+          return;
+        }
+
+        const data = (await res.json()) as CommitData[];
+        setCommits(data);
+      } catch (err) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        setCommits([]);
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadCommits();
+    return () => controller.abort();
+  }, [username, limit]);
+
+  if (loading) {
+    return <CommitsSkeleton />;
+  }
 
   if (error || commits.length === 0) {
     return (
@@ -88,9 +137,5 @@ function RecentCommitsInner({ username, limit = 5 }: RecentCommitsProps) {
 }
 
 export default function RecentCommits(props: RecentCommitsProps) {
-  return (
-    <Suspense fallback={<CommitsSkeleton />}>
-      <RecentCommitsInner {...props} />
-    </Suspense>
-  );
+  return <RecentCommitsInner {...props} />;
 }
