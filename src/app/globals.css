@@ -67,3 +67,24 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+
+@keyframes music-bar {
+  0% { transform: scaleY(0.1); }
+  50% { transform: scaleY(1); }
+  100% { transform: scaleY(0.1); }
+}
+
+/* Bento card base style */
+.bento-card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.bento-card:hover {
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.07);
+  border-color: color-mix(in srgb, var(--border) 50%, var(--accent) 50%);
+}

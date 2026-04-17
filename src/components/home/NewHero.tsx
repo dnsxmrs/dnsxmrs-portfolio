@@ -6,6 +6,7 @@ import Link from 'next/link';
 import FeaturedProjectCard from './FeaturedProjectCard';
 import RecentCommits from './RecentCommits';
 import GithubStatsCard from './GithubStatsCard';
+import BentoGrid from './bento/BentoGrid';
 
 export default function NewHero() {
     const [primeOpen, setPrimeOpen] = useState(false);
@@ -169,6 +170,11 @@ export default function NewHero() {
                         <FeaturedProjectCard owner="dnsxmrs" repo="fiweb" />
                         <FeaturedProjectCard owner="dnsxmrs" repo="kds" />
                     </div>
+                </div>
+
+                {/* Bento Grid layout */}
+                <div className="mt-24">
+                    <BentoGrid />
                 </div>
 
                 {/* GitHub Activity Section */}
