@@ -107,6 +107,7 @@ function RecentCommitsInner({ username, limit = 5 }: RecentCommitsProps) {
             href={commit.url}
             target="_blank"
             className="block group"
+            title={commit.message}
           >
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1 min-w-0">
