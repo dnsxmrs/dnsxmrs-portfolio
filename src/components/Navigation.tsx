@@ -37,8 +37,8 @@ export default function Navigation() {
     if (breadcrumbs.length > 1) breadcrumbs.pop();
 
     return (
-        <nav className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[var(--background)]/50 backdrop-blur-sm shadow-[0_4px_30px_rgba(0,0,0,0.15)]"
-             style={{ WebkitBackdropFilter: 'blur(14px)' }}>
+        <nav className="sticky top-0 z-100 w-full border-b border-white/[0.08] bg-[var(--background)]/50 backdrop-blur-sm shadow-[0_4px_30px_rgba(0,0,0,0.15)]"
+            style={{ WebkitBackdropFilter: 'blur(14px)' }}>
             <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div className="font-mono text-lg font-semibold text-[var(--foreground)] flex items-center">
                     {breadcrumbs}
