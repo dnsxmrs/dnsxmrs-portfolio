@@ -33,9 +33,9 @@ export default function MapWidget() {
     }, []);
 
     return (
-        <div className="bento-card w-full h-full flex flex-col">
+        <div className="bento-card relative isolate w-full h-full flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between mb-3 flex-shrink-0">
+            <div className="relative z-10 flex items-center justify-between mb-3 flex-shrink-0">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted-foreground)] flex items-center gap-1.5">
                     <MapPin className="w-3 h-3 text-[var(--accent)]" />
                     Based In
@@ -47,12 +47,12 @@ export default function MapWidget() {
             </div>
 
             {/* Map */}
-            <div className="relative flex-1 rounded-xl overflow-hidden bg-[var(--border)]/40 min-h-0">
+            <div className="relative z-0 flex-1 rounded-xl overflow-hidden bg-[var(--border)]/40 min-h-0">
                 <LeafletMap />
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between mt-2.5 flex-shrink-0">
+            <div className="relative z-10 flex items-center justify-between mt-2.5 flex-shrink-0">
                 <p className="text-xs font-medium text-[var(--foreground)]">San Isidro, Montalban</p>
                 <span className="text-[10px] font-mono bg-[var(--accent)]/10 text-[var(--accent)] px-2 py-0.5 rounded-md font-semibold">PH</span>
             </div>
