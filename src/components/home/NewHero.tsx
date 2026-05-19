@@ -132,18 +132,18 @@ export default function NewHero() {
                                             <X className="w-4 h-4 text-[var(--muted-foreground)]" />
                                         </button>
                                     </div>
-                                    <div className="text-sm text-[var(--foreground)]">Operations Intern</div>
+                                    <div className="text-sm text-[var(--foreground)]">Full Stack Developer Intern</div>
                                 </div>
                             </div>
                             {/* Description */}
                             <div className="text-sm text-[var(--muted-foreground)] mb-3 leading-relaxed">
-                                Currently an intern at My GreatWork Spaces Inc., helping make operations more efficient and assisting the senior supervisor with daily tasks and process improvements.
+                                Developed enterprise web apps using Next.js, Prisma, and Supabase to streamline operational workflows. Built full-stack booking and inventory management systems featuring role-based access, QR asset tracking, and extensive audit reporting.
                             </div>
 
                             {/* Date */}
                             <div className="text-xs text-[var(--muted-foreground)] flex items-center gap-2">
                                 <Calendar className="h-4 w-4" />
-                                <span>Feb 2026 – Present</span>
+                                <span>Feb 2026 – May 2026</span>
                             </div>
                         </div>
                     )}
