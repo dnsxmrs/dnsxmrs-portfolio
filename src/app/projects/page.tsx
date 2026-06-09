@@ -9,7 +9,7 @@ const FEATURED_REPOS = [
     { owner: 'dnsxmrs', repo: 'mgsi-bms-staff' },
     { owner: 'BenJr23', repo: 'mgsi-bms-superadmin' },
     { owner: 'dnsxmrs', repo: 'mgsi-bms-client' },
-    { owner: 'dnsxmrs', repo: 'e-wastewise' },
+    { owner: 'dnsxmrs', repo: 'ewastewise' },
     { owner: 'dnsxmrs', repo: 'e-kwento' },
     { owner: 'dnsxmrs', repo: 'sjsfi-sis-registrar' },
     { owner: 'dnsxmrs', repo: 'sjsfi-sis-student' },
