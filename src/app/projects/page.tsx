@@ -2,6 +2,7 @@ import { Layers } from 'lucide-react';
 import FeaturedProjectCard from '@/components/home/FeaturedProjectCard';
 
 const FEATURED_REPOS = [
+    { owner: 'dnsxmrs', repo: 'csbs' },
     { owner: 'dnsxmrs', repo: 'power-track-mobile' },
     { owner: 'dnsxmrs', repo: 'power-track' },
     { owner: 'dnsxmrs', repo: 'ai-conversation-analyzer' },
