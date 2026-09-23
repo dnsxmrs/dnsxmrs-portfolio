@@ -28,7 +28,7 @@ export default function AboutContent() {
                     <div className="space-y-6">
                         <div className="relative w-full aspect-square max-w-[300px] rounded-2xl overflow-hidden border border-[var(--border)] bg-gradient-to-br from-[var(--accent)]/10 to-[var(--card)]">
                             <Image
-                                src="/pic.webp"
+                                src="/erice.jpg"
                                 alt="Erice Marial"
                                 fill
                                 className="object-cover"
