@@ -46,14 +46,16 @@ export default function LeafletMap() {
                 keyboard: false,
             });
 
-            // Dark basemap tiles (CartoDB Dark Matter)
-            L.tileLayer(
-                'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-                {
-                    maxZoom: 20,
-                    subdomains: 'abcd',
-                }
-            ).addTo(map);
+            // Dark basemap tiles (Esri World Dark Gray Canvas - keyless & free)
+            const cartoKey = process.env.NEXT_PUBLIC_CARTO_API_KEY;
+            const tileUrl = cartoKey
+                ? `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${cartoKey}`
+                : 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+
+            L.tileLayer(tileUrl, {
+                maxZoom: 18,
+                attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+            }).addTo(map);
 
             // Apply orange tint to tile imagery via CSS filter
             const tilePane = mapRef.current!.querySelector(
