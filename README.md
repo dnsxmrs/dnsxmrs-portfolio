@@ -74,6 +74,12 @@ To run the application locally, you will need a `.env.local` file in the root di
 LASTFM_API_KEY=your_lastfm_api_key
 LASTFM_USERNAME=your_lastfm_username
 
+# Spotify Web API
+SPOTIFY_CLIENT_ID=your_spotify_client_id
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000/callback
+SPOTIFY_REFRESH_TOKEN=your_spotify_refresh_token
+
 # GitHub API
 GITHUB_TOKEN=your_github_personal_access_token
 

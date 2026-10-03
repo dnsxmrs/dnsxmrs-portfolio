@@ -1,11 +1,37 @@
 import { NextResponse } from "next/server";
 import { getRecentTracks } from "@/lib/lastfm";
+import { getCurrentlyPlaying } from "@/lib/spotify";
 
 export const dynamic = "force-dynamic";
 
 const API_KEY = process.env.LASTFM_API_KEY;
 
 export async function GET() {
+    try {
+        const spotify = await getCurrentlyPlaying();
+
+        if (spotify.status === "playing") {
+            const track = spotify.track;
+
+            return NextResponse.json({
+                isPlaying: true,
+                title: track.name,
+                artist: track.artists?.map((artist) => artist.name).join(", ") || "Unknown artist",
+                album: track.album?.name || "",
+                albumImageUrl: track.album?.images?.[0]?.url,
+                songUrl: track.external_urls?.spotify,
+                durationMs: track.duration_ms || 0,
+                fetchedAt: Date.now() - spotify.progressMs,
+            });
+        }
+
+        if (spotify.status === "idle") {
+            return NextResponse.json({ isPlaying: false });
+        }
+    } catch (error) {
+        console.error("Spotify fetching error; falling back to Last.fm:", error);
+    }
+
     try {
         const response = await getRecentTracks();
 
