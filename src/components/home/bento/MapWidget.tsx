@@ -36,14 +36,17 @@ export default function MapWidget() {
         <div className="bento-card relative isolate w-full h-full flex flex-col">
             {/* Header */}
             <div className="relative z-10 flex items-center justify-between mb-3 flex-shrink-0">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted-foreground)] flex items-center gap-1.5">
+                <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--foreground)] flex items-center gap-1.5">
                     <MapPin className="w-3 h-3 text-[var(--accent)]" />
-                    Based In
+                    Rizal, PH
                 </span>
-                <span className="text-[10px] font-mono font-medium text-[var(--muted-foreground)] flex items-center gap-1 bg-[var(--border)]/50 px-2 py-1 rounded-lg">
-                    <Clock className="w-2.5 h-2.5 text-[var(--accent)]" />
-                    {time || '--:--:--'}
-                </span>
+                <div className="flex flex-col items-end gap-0.5">
+                    <span className="text-[11px] font-mono font-semibold text-[var(--foreground)] flex items-center gap-1.5 bg-[var(--border)]/60 px-2 py-1 rounded-lg">
+                        <Clock className="w-2.5 h-2.5 text-[var(--accent)]" />
+                        {time || '--:--:--'}
+                    </span>
+
+                </div>
             </div>
 
             {/* Map */}
@@ -51,11 +54,6 @@ export default function MapWidget() {
                 <LeafletMap />
             </div>
 
-            {/* Footer */}
-            <div className="relative z-10 flex items-center justify-between mt-2.5 flex-shrink-0">
-                <p className="text-xs font-medium text-[var(--foreground)]">San Isidro, Montalban</p>
-                <span className="text-[10px] font-mono bg-[var(--accent)]/10 text-[var(--accent)] px-2 py-0.5 rounded-md font-semibold">PH</span>
-            </div>
         </div>
     );
 }

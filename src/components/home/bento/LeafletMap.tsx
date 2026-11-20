@@ -46,25 +46,36 @@ export default function LeafletMap() {
                 keyboard: false,
             });
 
-            // Dark basemap tiles (Esri World Dark Gray Canvas - keyless & free)
+            // Use a dark basemap with light labels so place names stay readable.
             const cartoKey = process.env.NEXT_PUBLIC_CARTO_API_KEY;
-            const tileUrl = cartoKey
-                ? `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${cartoKey}`
-                : 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+            const tileSuffix = cartoKey ? `?key=${cartoKey}` : '';
+            const tileUrl = `https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png${tileSuffix}`;
+            const labelUrl = `https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png${tileSuffix}`;
 
             L.tileLayer(tileUrl, {
                 maxZoom: 18,
-                attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
             }).addTo(map);
 
-            // Apply orange tint to tile imagery via CSS filter
+            const labelsPane = map.createPane('labels');
+            labelsPane.style.zIndex = '450';
+            labelsPane.style.pointerEvents = 'none';
+
+            L.tileLayer(labelUrl, {
+                maxZoom: 18,
+                pane: 'labels',
+                opacity: 1,
+            }).addTo(map);
+
+            // Keep the basemap monochrome while lifting the label overlay.
             const tilePane = mapRef.current!.querySelector(
                 '.leaflet-tile-pane'
             ) as HTMLElement | null;
             if (tilePane) {
                 tilePane.style.filter =
-                    'brightness(1.1) sepia(0.35) hue-rotate(-10deg) saturate(2.2)';
+                    'grayscale(1) brightness(1.3) contrast(1.25)';
             }
+            labelsPane.style.filter = 'grayscale(1) brightness(1.15) contrast(1.1)';
 
             // Custom orange pulsing dot marker
             const orangeIcon = L.divIcon({
